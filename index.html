@@ -6,37 +6,72 @@
     <title>Jan Mark Rastica - Portfolio</title>
     <style>
         /* ==========================================================================
-            0. HERO HEADER (Document Title)
+            0. COLOR THEME VARIABLES (Default: Bright / Light Mode)
+            ========================================================================== */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --text-main: #334155;
+            --text-heading: #0f172a;
+            --text-muted: #64748b;
+            --accent-color: #0284c7;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --sidebar-shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        /* Dark / Night Mode Override */
+        body.dark-mode {
+            --bg-main: #0f172a;
+            --bg-header: rgba(30, 41, 59, 0.95);
+            --bg-card: #1e293b;
+            --bg-sidebar: #1a1a24;
+            --text-main: #e2e8f0;
+            --text-heading: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #38bdf8;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --sidebar-shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        /* ==========================================================================
+            1. HERO HEADER (Document Title)
             ========================================================================== */
         .page-header {
             position: sticky;
             top: 0;
             z-index: 900;
             padding: 0.8rem 2rem;
-            background-color: rgba(30, 41, 59, 0.95);
+            background-color: var(--bg-header);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border-top: 4px solid #38bdf8;
-            border-bottom: 1px solid #334155;
+            border-top: 4px solid var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
             text-align: center;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .page-header h1 {
-            color: #f8fafc;
+            color: var(--text-heading);
             font-size: 2.2rem;
             margin: 0 0 0.5rem 0;
             font-weight: 700;
+            transition: color 0.3s;
         }
 
         .page-header p {
-            color: #94a3b8;
+            color: var(--text-muted);
             font-size: 1.1rem;
             margin: 0;
             text-align: center;
+            transition: color 0.3s;
         }
 
         /* ==========================================================================
-            1. GLOBAL & SCROLL SETTINGS
+            2. GLOBAL & SCROLL SETTINGS
             ========================================================================== */
         html {
             scroll-behavior: smooth;
@@ -45,9 +80,10 @@
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         article[id], h1[id], h2[id], section[id] {
@@ -55,7 +91,41 @@
         }
 
         /* ==========================================================================
-            2. FIXED SIDEBAR LAYOUT
+            3. DAY/NIGHT TOGGLE BUTTON
+            ========================================================================== */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 12px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 50%;
+            background-color: var(--bg-card);
+            color: var(--accent-color);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.2s;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .theme-toggle-btn svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+            fill: currentColor;
+        }
+
+        /* ==========================================================================
+            4. FIXED SIDEBAR LAYOUT
             ========================================================================== */
         .sidebar {
             position: fixed;
@@ -65,15 +135,15 @@
             min-width: 260px;
             max-width: 450px;
             height: 100vh;
-            background-color: #1a1a24;
-            box-shadow: 6px 0 20px rgba(0, 0, 0, 0.4);
+            background-color: var(--bg-sidebar);
+            box-shadow: 6px 0 20px var(--sidebar-shadow);
             z-index: 1000;
             transform: translateX(-100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s;
         }
 
         /* ==========================================================================
-            3. TOGGLE MECHANISMS (HOVER + CLICK)
+            5. TOGGLE MECHANISMS (HOVER + CLICK)
             ========================================================================== */
         @media (hover: hover) {
             .sidebar:hover {
@@ -91,7 +161,7 @@
             right: -48px;
             width: 48px;
             height: 90px;
-            background-color: #1a1a24;
+            background-color: var(--bg-sidebar);
             border-radius: 0 10px 10px 0;
             display: flex;
             flex-direction: column;
@@ -100,18 +170,20 @@
             gap: 5px;
             cursor: pointer;
             transform: translateY(-50%);
-            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.25);
+            box-shadow: 4px 0 12px var(--sidebar-shadow);
+            transition: background-color 0.3s;
         }
 
         .hamburger-line {
             width: 20px;
             height: 2px;
-            background-color: #38bdf8;
+            background-color: var(--accent-color);
             border-radius: 2px;
+            transition: background-color 0.3s;
         }
 
         /* ==========================================================================
-            4. HIERARCHICAL INDEX MENU
+            6. HIERARCHICAL INDEX MENU
             ========================================================================== */
         .sidebar-content {
             padding: 2rem 1.5rem;
@@ -119,19 +191,20 @@
             box-sizing: border-box;
             overflow-y: auto; 
             scrollbar-width: thin;
-            scrollbar-color: #334155 transparent;
+            scrollbar-color: var(--border-color) transparent;
         }
 
         .sidebar-content::-webkit-scrollbar { width: 6px; }
-        .sidebar-content::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 3px; }
+        .sidebar-content::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 3px; }
 
         .sidebar-content h2 {
             font-size: 1.2rem;
-            color: #f8fafc;
-            border-bottom: 1px solid #334155;
+            color: var(--text-heading);
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 0.75rem;
             margin-top: 0;
             margin-bottom: 1.5rem;
+            transition: color 0.3s, border-color 0.3s;
         }
 
         .article-accordion {
@@ -142,14 +215,15 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 1rem;
-            color: #f1f5f9;
+            color: var(--text-heading);
             user-select: none;
             padding: 0.25rem 0;
             list-style-position: inside;
+            transition: color 0.3s;
         }
 
         .article-accordion summary:hover {
-            color: #38bdf8;
+            color: var(--accent-color);
         }
 
         .article-accordion summary a {
@@ -161,7 +235,8 @@
             list-style: none;
             padding: 0 0 0 1rem;
             margin: 0.5rem 0 0 0.25rem;
-            border-left: 2px solid #334155;
+            border-left: 2px solid var(--border-color);
+            transition: border-color 0.3s;
         }
 
         .section-list li {
@@ -170,19 +245,19 @@
 
         .section-list a {
             font-size: 0.9rem;
-            color: #94a3b8;
+            color: var(--text-muted);
             text-decoration: none;
             display: inline-block;
             transition: color 0.2s, transform 0.2s;
         }
 
         .section-list a:hover {
-            color: #38bdf8;
+            color: var(--accent-color);
             transform: translateX(4px);
         }
 
         /* ==========================================================================
-            5. MAIN PAGE CONTENT STYLES
+            7. MAIN PAGE CONTENT STYLES
             ========================================================================== */
         .content-container {
             margin-left: auto;
@@ -192,28 +267,33 @@
         }
 
         .article-card {
-            background-color: #1e293b;
+            background-color: var(--bg-card);
             border-radius: 12px;
             padding: 2.5rem;
             margin-bottom: 3rem;
-            border: 1px solid #334155;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow-color);
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
 
         .article-card h1 {
             margin-top: 0;
-            color: #f8fafc;
-            border-bottom: 2px solid #334155;
+            color: var(--text-heading);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 1rem;
+            transition: color 0.3s, border-color 0.3s;
         }
 
         .article-card h3 {
-            color: #e2e8f0;
+            color: var(--text-main);
             font-weight: normal;
+            transition: color 0.3s;
         }
 
         .article-card a {
-            color: #38bdf8;
+            color: var(--accent-color);
             text-decoration: none;
+            transition: color 0.3s;
         }
 
         .article-card a:hover {
@@ -222,6 +302,19 @@
     </style>
 </head>
 <body>
+
+    <!-- DAY/NIGHT TOGGLE BUTTON (Default: Moon Icon for Light Mode) -->
+    <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Day/Night Mode" aria-label="Toggle Day/Night Mode">
+        <!-- Moon Icon (Default for Light Mode) -->
+        <svg id="moonIcon" viewBox="0 0 24 24">
+            <path d="M12.3 2a10 10 0 0 0 9.7 12.3A10 10 0 1 1 12.3 2z"/>
+        </svg>
+        <!-- Sun Icon (Hidden by default, shown in Dark Mode) -->
+        <svg id="sunIcon" viewBox="0 0 24 24" style="display:none;">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
 
     <!-- HERO HEADER -->
     <header class="page-header">
@@ -272,6 +365,37 @@
         </article>
 
     </main>
+
+    <!-- THEME TOGGLE SCRIPT -->
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+
+        // 1. Check if user saved a preference previously
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            moonIcon.style.display = 'none';
+            sunIcon.style.display = 'block';
+        }
+
+        // 2. Toggle themes on click
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            
+            if (isDarkMode) {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                moonIcon.style.display = 'block';
+                sunIcon.style.display = 'none';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
 
 </body>
 </html>
